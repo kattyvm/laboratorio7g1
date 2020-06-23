@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <link rel="shortcut icon" href="#"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <script src="jquery/jquery-3.5.1.min.js"></script>
+        <script>
+            $(document).ready(function () {
+
+
+                var informacion = {
+                    curso: "INF210",
+                    nombre: "Software para Telecomunicaciones 2",
+                    tipo: "Clase",
+                    horario: "Lunes 19-22",
+                    aula: "v307",
+                    alumnos: [
+                        {codigo: 123, nombre: "Juanito"},
+                        {codigo: 456, nombre: "Pedrito"},
+                        {codigo: 789, nombre: "Carlitos"}
+                    ]
+                };
+
+                console.log(informacion);
+                informacion.nombre2="Pedro";
+
+                $("button").click(function () {
+
+                    var url = "https://1a8jit3xd4.execute-api.us-east-1.amazonaws.com/prod?accion=validar";
+                    var nombreUsuario = $("#username").val();
+                    var parametros = {
+                        username: nombreUsuario,
+                        apellido: "Tapia",
+                        dni: "12345678"
+                    };
+
+                    $.post(url, parametros)
+                        .done(function (msg) {
+                            if (msg === "no existe") {
+                                $(".info").text("Nombre de usuario disponible");
+                            } else {
+                                $(".info").text("El nombre de usuario ya existe");
+                            }
+                            $(".info").show().delay(3000).fadeOut();
+                        });
+                });
+
+                /*$("button").click(function () {
+                    $.ajax({
+                        method: "POST",
+                        data: {username: $("#username").val()},
+                        url: "https://1a8jit3xd4.execute-api.us-east-1.amazonaws.com/prod?accion=validar"
+                    }).done(function (msg) {
+                        if (msg === "no existe") {
+                            $(".info").text("Nombre de usuario disponible");
+                        } else {
+                            $(".info").text("El nombre de usuario ya existe");
+                        }
+                        $(".info").show().delay(3000).fadeOut();
+                    });
+                });*/
+            });
+
+        </script>
+    </head>
+    <body class="container">
+        <h1>Consulta nombre de usuario</h1>
+        <hr/>
+        <div class="form-group">
+            <label for="username">Nombre de usuario</label>
+            <input type="text" class="form-control" id="username" autofocus required>
+            <div class="info" style="display:none;"></div>
+        </div>
+        <button type="button" class="btn btn-primary">Enviar</button>
+    </body>
+</html>
